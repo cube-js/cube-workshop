@@ -34,8 +34,8 @@ export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`${siteConfig.title}`}
+      description="Build a universal semantic layer for AI, BI and data applications featuring Cube Cloud.">
       <HomepageHeader />
       <main>
         <section style={{ padding: '2rem 0', textAlign: 'center' }}>
