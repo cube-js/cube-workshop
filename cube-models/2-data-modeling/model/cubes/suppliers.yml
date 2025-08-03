@@ -1,0 +1,48 @@
+cubes:
+  - name: suppliers
+    public: false
+    sql_table: tpch.supplier
+
+    measures:
+      - name: count
+        type: count
+
+    dimensions:
+      - name: supplier_key
+        sql: s_suppkey
+        type: number
+        primary_key: true
+
+      - name: name
+        sql: s_name
+        type: string
+
+      - name: address
+        sql: s_address
+        type: string
+
+      - name: phone
+        sql: s_phone
+        type: string
+
+      - name: account_balance
+        sql: s_acctbal
+        type: number
+        format: currency
+
+      - name: comment
+        sql: s_comment
+        type: string
+
+    joins:
+      - name: supplier_nations
+        relationship: many_to_one
+        sql: "{CUBE}.s_nationkey = {supplier_nations}.n_nationkey"
+
+      - name: line_items
+        relationship: one_to_many
+        sql: "{CUBE}.s_suppkey = {line_items}.l_suppkey"
+
+      - name: part_suppliers
+        relationship: one_to_many
+        sql: "{CUBE}.s_suppkey = {part_suppliers}.ps_suppkey"

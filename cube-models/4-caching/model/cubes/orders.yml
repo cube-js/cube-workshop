@@ -1,0 +1,93 @@
+cubes:
+  - name: orders
+    public: false
+    sql_table: tpch.orders
+
+    measures:
+      - name: count
+        type: count
+      
+      - name: total_revenue
+        sql: o_totalprice
+        type: sum
+        format: currency
+        description: "Total revenue from all orders"
+      
+      - name: average_order_value
+        sql: "{CUBE.total_revenue} / {CUBE.count}"
+        type: number
+        format: currency
+        description: "Average revenue per order"
+
+    dimensions:
+      - name: id
+        sql: o_orderkey
+        type: number
+        primary_key: true
+
+      - name: order_date
+        sql: o_orderdate::DATE
+        type: time
+
+      - name: status
+        sql: o_orderstatus
+        type: string
+
+      - name: priority
+        sql: o_orderpriority
+        type: string
+
+      - name: ship_priority
+        sql: o_shippriority
+        type: number
+
+      - name: customer_key
+        sql: o_custkey
+        type: number
+
+      - name: comment
+        sql: o_comment
+        type: string
+      
+      - name: items_in_order
+        sql: "{line_items.count}"
+        type: number
+        description: "Number of line items in this order"
+        sub_query: true
+      
+      - name: order_size_category
+        sql: >
+          CASE 
+            WHEN {CUBE}.o_totalprice < 50000 THEN 'Small'
+            WHEN {CUBE}.o_totalprice < 100000 THEN 'Medium'
+            WHEN {CUBE}.o_totalprice < 200000 THEN 'Large'
+            ELSE 'Enterprise'
+          END
+        type: string
+        description: "Order size categories for business analysis"
+
+    joins:
+      - name: customers
+        relationship: many_to_one
+        sql: "{CUBE}.o_custkey = {customers}.c_custkey"
+
+      - name: line_items
+        relationship: one_to_many
+        sql: "{CUBE}.o_orderkey = {line_items}.l_orderkey"
+
+    pre_aggregations:
+      - name: customer_behavior
+        measures:
+          - count
+          - total_revenue
+        dimensions:
+          - customers.customer_nations.customer_regions.name
+          - customers.customer_nations.customer_regions.region_key
+          - customers.customer_key
+          - customers.segment
+          - status
+          - order_size_category
+        time_dimension: order_date
+        granularity: day
+        refresh_key:
+          every: "8 hour"

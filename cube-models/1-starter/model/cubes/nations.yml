@@ -1,0 +1,53 @@
+cubes:
+  # Base nations cube - no joins to avoid circular references
+  - name: nations
+    public: false
+    sql_table: tpch.nation
+
+    measures:
+      - name: count
+        type: count
+
+    dimensions:
+      - name: nation_key
+        sql: n_nationkey
+        type: number
+        primary_key: true
+
+      - name: name
+        sql: n_name
+        type: string
+
+      - name: region_key
+        sql: n_regionkey
+        type: number
+
+      - name: comment
+        sql: n_comment
+        type: string
+
+  # Extended nations cube for customer context
+  - name: customer_nations
+    extends: nations
+    
+    joins:
+      - name: customer_regions
+        relationship: many_to_one
+        sql: "{CUBE}.n_regionkey = {customer_regions}.r_regionkey"
+
+      - name: customers
+        relationship: one_to_many
+        sql: "{CUBE}.n_nationkey = {customers}.c_nationkey"
+
+  # Extended nations cube for supplier context  
+  - name: supplier_nations
+    extends: nations
+    
+    joins:
+      - name: supplier_regions
+        relationship: many_to_one
+        sql: "{CUBE}.n_regionkey = {supplier_regions}.r_regionkey"
+
+      - name: suppliers
+        relationship: one_to_many
+        sql: "{CUBE}.n_nationkey = {suppliers}.s_nationkey"

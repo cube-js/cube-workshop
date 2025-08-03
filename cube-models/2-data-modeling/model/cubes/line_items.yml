@@ -1,0 +1,98 @@
+cubes:
+  - name: line_items
+    public: false
+    sql_table: tpch.lineitem
+
+    measures:
+      - name: count
+        type: count
+
+      - name: total_quantity
+        type: sum
+        sql: l_quantity
+
+      - name: total_sales_amount
+        type: sum
+        sql: "({CUBE}.l_extendedprice * (1 - {CUBE}.l_discount))"
+
+      - name: total_discount
+        type: sum
+        sql: "({CUBE}.l_discount * {CUBE}.l_extendedprice)"
+
+      - name: discount_rate
+        type: number
+        sql: "({CUBE.total_discount} / {CUBE.total_sales_amount})"
+
+    dimensions:
+      - name: order_key
+        sql: l_orderkey
+        type: number
+
+      - name: part_key
+        sql: l_partkey
+        type: number
+
+      - name: supplier_key
+        sql: l_suppkey
+        type: number
+
+      - name: line_number
+        sql: l_linenumber
+        type: number
+        primary_key: true
+
+      - name: quantity
+        sql: l_quantity
+        type: number
+
+      - name: extended_price
+        sql: l_extendedprice
+        type: number
+        format: currency
+
+      - name: discount
+        sql: l_discount
+        type: number
+        format: percent
+
+      - name: tax
+        sql: l_tax
+        type: number
+        format: percent
+
+      - name: return_flag
+        sql: l_returnflag
+        type: string
+
+      - name: line_status
+        sql: l_linestatus
+        type: string
+
+      - name: ship_date
+        sql: l_shipdate::DATE
+        type: time
+
+      - name: commit_date
+        sql: l_commitdate::DATE
+        type: time
+
+      - name: receipt_date
+        sql: l_receiptdate::DATE
+        type: time
+
+      - name: ship_mode
+        sql: l_shipmode
+        type: string
+
+    joins:
+      - name: orders
+        relationship: many_to_one
+        sql: "{CUBE}.l_orderkey = {orders}.o_orderkey"
+
+      - name: parts
+        relationship: many_to_one
+        sql: "{CUBE}.l_partkey = {parts}.p_partkey"
+
+      - name: suppliers
+        relationship: many_to_one
+        sql: "{CUBE}.l_suppkey = {suppliers}.s_suppkey"

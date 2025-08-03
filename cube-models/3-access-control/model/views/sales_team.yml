@@ -1,0 +1,37 @@
+views:
+  - name: sales_team
+    description: "Simplified view for sales representatives"
+    # Visible to sales reps, directors, and admins
+    public: "{{ COMPILE_CONTEXT.securityContext.role in ['sales_rep', 'global_admin'] }}"
+    
+    cubes:
+      # Basic sales metrics
+      - join_path: line_items
+        includes:
+          - quantity
+          - extended_price
+          
+      # Order information
+      - join_path: line_items.orders
+        prefix: true
+        includes:
+          - count
+          - order_date
+          - status
+          - priority
+          
+      # Customer details (with masked PII)
+      - join_path: line_items.orders.customers
+        prefix: true
+        includes:
+          - name
+          - segment
+          - phone  # Will be masked based on PII access
+          
+      # Product information
+      - join_path: line_items.parts
+        prefix: true
+        includes:
+          - name
+          - brand
+          - type

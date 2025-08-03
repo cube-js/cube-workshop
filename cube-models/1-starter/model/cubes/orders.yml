@@ -1,0 +1,47 @@
+cubes:
+  - name: orders
+    public: false
+    sql_table: tpch.orders
+
+    measures:
+      - name: count
+        type: count
+
+    dimensions:
+      - name: id
+        sql: o_orderkey
+        type: number
+        primary_key: true
+
+      - name: order_date
+        sql: o_orderdate::DATE
+        type: time
+
+      - name: status
+        sql: o_orderstatus
+        type: string
+
+      - name: priority
+        sql: o_orderpriority
+        type: string
+
+      - name: ship_priority
+        sql: o_shippriority
+        type: number
+
+      - name: customer_key
+        sql: o_custkey
+        type: number
+
+      - name: comment
+        sql: o_comment
+        type: string
+
+    joins:
+      - name: customers
+        relationship: many_to_one
+        sql: "{CUBE}.o_custkey = {customers}.c_custkey"
+
+      # - name: line_items
+      #   relationship: one_to_many
+      #   sql: "{CUBE}.o_orderkey = {line_items}.l_orderkey"

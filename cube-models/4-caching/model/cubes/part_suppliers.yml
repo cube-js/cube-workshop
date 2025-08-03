@@ -1,0 +1,41 @@
+cubes:
+  - name: part_suppliers
+    public: false
+    sql_table: tpch.partsupp
+
+    measures:
+      - name: count
+        type: count
+
+    dimensions:
+      - name: part_key
+        sql: ps_partkey
+        type: number
+        primary_key: true
+
+      - name: supplier_key
+        sql: ps_suppkey
+        type: number
+        primary_key: true
+
+      - name: available_quantity
+        sql: ps_availqty
+        type: number
+
+      - name: supply_cost
+        sql: ps_supplycost
+        type: number
+        format: currency
+
+      - name: comment
+        sql: ps_comment
+        type: string
+
+    joins:
+      - name: parts
+        relationship: many_to_one
+        sql: "{CUBE}.ps_partkey = {parts}.p_partkey"
+
+      - name: suppliers
+        relationship: many_to_one
+        sql: "{CUBE}.ps_suppkey = {suppliers}.s_suppkey"

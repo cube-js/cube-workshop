@@ -1,0 +1,41 @@
+views:
+  - name: director_dashboard
+    description: "High-level metrics for directors and admins only"
+    # Dynamic visibility - only directors and admins can see this view
+    public: "{{ COMPILE_CONTEXT.securityContext.role in ['global_admin', 'regional_director'] }}"
+    
+    cubes:
+      # Revenue metrics from line items
+      - join_path: line_items
+        includes:
+          - total_sales_amount
+          - total_discount
+          - discount_rate
+          
+      # Order-level metrics
+      - join_path: line_items.orders
+        prefix: true
+        includes:
+          - count
+          - total_revenue
+          - average_order_value
+          
+      # Customer insights
+      - join_path: line_items.orders.customers
+        prefix: true
+        includes:
+          - count
+          - average_customer_value
+          - segment
+          
+      # Regional breakdown
+      - join_path: line_items.orders.customers.customer_nations.customer_regions
+        includes:
+          - name: name
+            alias: region
+          - region_key
+            
+      # Time dimensions for trending
+      - join_path: line_items.orders
+        includes:
+          - order_date

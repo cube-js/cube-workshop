@@ -1,0 +1,41 @@
+cubes:
+  # Base regions cube - no joins to avoid circular references
+  - name: regions
+    public: false
+    sql_table: tpch.region
+
+    measures:
+      - name: count
+        type: count
+
+    dimensions:
+      - name: region_key
+        sql: r_regionkey
+        type: number
+        primary_key: true
+
+      - name: name
+        sql: r_name
+        type: string
+
+      - name: comment
+        sql: r_comment
+        type: string
+
+  # Extended regions cube for customer context
+  - name: customer_regions
+    extends: regions
+    
+    joins:
+      - name: customer_nations
+        relationship: one_to_many
+        sql: "{CUBE}.r_regionkey = {customer_nations}.n_regionkey"
+
+  # Extended regions cube for supplier context
+  - name: supplier_regions
+    extends: regions
+    
+    joins:
+      - name: supplier_nations
+        relationship: one_to_many
+        sql: "{CUBE}.r_regionkey = {supplier_nations}.n_regionkey"
