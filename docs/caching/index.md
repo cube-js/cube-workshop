@@ -706,4 +706,4 @@ Your data model is now ready for API consumption and application development!
 
 ---
 
-**Next**: [APIs →](../apis/) - Learn how to consume your cached, secure data through multiple API interfaces.
+**Next**: [APIs →](/docs/apis) - Learn how to consume your cached, secure data through multiple API interfaces.

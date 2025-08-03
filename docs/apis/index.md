@@ -346,4 +346,4 @@ Your production Cube deployment now provides a comprehensive API ecosystem that 
 
 ---
 
-**Next**: [React App →](../react-app/) - Build a dashboard that consumes your production Cube REST API.
+**Next**: [React App →](/docs/react-app) - Build a dashboard that consumes your production Cube REST API.

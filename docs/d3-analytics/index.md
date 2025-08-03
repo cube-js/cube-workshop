@@ -237,4 +237,4 @@ On the main D3 page (click the Cube logo in the top left), navigate to the **Adm
 
 ---
 
-**Next**: [Resources →](../resources/) - Continue your Cube journey with additional learning materials.
+**Next**: [Resources →](/docs/resources) - Continue your Cube journey with additional learning materials.

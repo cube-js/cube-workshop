@@ -905,4 +905,4 @@ This data model is well on its way to power dashboards, reports, and application
 
 ---
 
-**Next**: [Access Control →](../access-control/) - Learn how to secure your data with row-level security.
+**Next**: [Access Control →](/docs/access-control) - Learn how to secure your data with row-level security.

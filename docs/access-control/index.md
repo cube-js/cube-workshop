@@ -663,4 +663,4 @@ Your access control implementation is now committed and ready for the next modul
 
 ---
 
-**Next**: [Caching →](../caching/) - Learn how pre-aggregations accelerate queries while maintaining security.
+**Next**: [Caching →](/docs/caching) - Learn how pre-aggregations accelerate queries while maintaining security.

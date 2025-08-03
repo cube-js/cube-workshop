@@ -3880,4 +3880,4 @@ You've successfully created a modern analytics application that showcases the po
 
 ---
 
-**Next**: [D3 Analytics →](../d3-analytics/) - Your Agentic Data Team
+**Next**: [D3 Analytics →](/docs/d3-analytics) - Your Agentic Data Team
