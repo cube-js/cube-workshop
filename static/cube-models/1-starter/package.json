@@ -1,0 +1,14 @@
+{
+  "name": "wdc-2025-cube-workshop-starter",
+  "version": "0.0.1",
+  "description": "Cube starter model for WDC 2025 workshop",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cubejs-server"
+  },
+  "dependencies": {
+    "@cubejs-backend/server-core": "^0.35.0",
+    "@cubejs-backend/duckdb-driver": "^0.35.0"
+  },
+  "license": "Apache-2.0"
+}

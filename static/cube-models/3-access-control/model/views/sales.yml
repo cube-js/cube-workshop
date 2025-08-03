@@ -1,0 +1,79 @@
+views:
+  - name: sales
+    description: "Sales analytics view with line items as base grain"
+    
+    cubes:
+      # Base cube - line items (lowest granularity)
+      - join_path: line_items
+        includes:
+          - quantity
+          - extended_price
+          - discount
+          - tax
+          - return_flag
+          - line_status
+          - ship_date
+          - ship_mode
+          - total_quantity
+          - total_sales_amount
+          - total_discount
+          - discount_rate
+          
+      # Product information
+      - join_path: line_items.parts
+        prefix: true
+        includes:
+          - name
+          - brand
+          - type
+          - manufacturer
+          - size
+          - container
+          - retail_price
+          
+      # Supplier information  
+      - join_path: line_items.suppliers
+        prefix: true
+        includes:
+          - name
+          - account_balance
+        excludes:
+          - phone
+          - address
+          - comment
+
+      # Order information
+      - join_path: line_items.orders
+        prefix: true
+        includes:
+          - order_date
+          - priority
+          - status
+          - order_size_category
+          - average_order_value
+          - count
+          
+      # Customer information via orders
+      - join_path: line_items.orders.customers
+        prefix: true
+        includes:
+          - name
+          - segment
+          - account_balance
+          - customer_key
+          - phone  # Add phone field (will be masked based on PII access)
+        excludes:
+          - address
+          - comment
+          
+      # Geographic data
+      - join_path: line_items.orders.customers.customer_nations
+        includes:
+          - name: name
+            alias: nation
+            
+      - join_path: line_items.orders.customers.customer_nations.customer_regions
+        includes:
+          - name: name
+            alias: region
+          - region_key

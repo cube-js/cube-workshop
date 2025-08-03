@@ -1,0 +1,40 @@
+views:
+  - name: customer_behavior
+    description: "Customer behavior analytics optimized for order-level analysis"
+    
+    cubes:
+      # Base cube - orders (order-level analysis)
+      - join_path: orders
+        includes:
+          - count
+          - total_revenue
+          - average_order_value
+          - order_date
+          - status
+          - priority
+          - order_size_category
+          
+      # Customer information
+      - join_path: orders.customers
+        prefix: true
+        includes:
+          - name
+          - segment
+          - account_balance
+          - customer_key
+          - phone  # Will be masked based on PII access
+        excludes:
+          - address
+          - comment
+          
+      # Geographic context
+      - join_path: orders.customers.customer_nations
+        includes:
+          - name: name
+            alias: nation
+            
+      - join_path: orders.customers.customer_nations.customer_regions
+        includes:
+          - name: name
+            alias: region
+          - region_key

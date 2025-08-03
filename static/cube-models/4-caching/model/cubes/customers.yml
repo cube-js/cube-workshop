@@ -1,0 +1,62 @@
+cubes:
+  - name: customers
+    public: false
+    sql_table: tpch.customer
+
+    measures:
+      - name: count
+        type: count
+      
+      - name: average_customer_value
+        sql: "{CUBE.lifetime_value}"
+        type: avg
+        format: currency
+        description: "ACV - Average revenue per customer across all customers"
+
+    dimensions:
+      - name: customer_key
+        sql: c_custkey
+        type: number
+        primary_key: true
+
+      - name: name
+        sql: c_name
+        type: string
+
+      - name: address
+        sql: c_address
+        type: string
+
+      - name: phone
+        sql: {{ masked('c_phone', COMPILE_CONTEXT.securityContext) }}
+        type: string
+        title: Phone Number
+
+      - name: segment
+        sql: c_mktsegment
+        type: string
+
+      - name: account_balance
+        sql: c_acctbal
+        type: number
+        format: currency
+
+      - name: comment
+        sql: c_comment
+        type: string
+      
+      - name: lifetime_value
+        sql: "{orders.total_revenue}"
+        type: number
+        format: currency
+        description: "Total revenue from all orders for this customer"
+        sub_query: true
+
+    joins:
+      - name: customer_nations
+        relationship: many_to_one
+        sql: "{CUBE}.c_nationkey = {customer_nations}.n_nationkey"
+
+      - name: orders
+        relationship: one_to_many
+        sql: "{CUBE}.c_custkey = {orders}.o_custkey"

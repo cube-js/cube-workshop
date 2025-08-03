@@ -1,0 +1,56 @@
+cubes:
+  - name: parts
+    public: false
+    sql_table: tpch.part
+
+    measures:
+      - name: count
+        type: count
+
+    dimensions:
+      - name: part_key
+        sql: p_partkey
+        type: number
+        primary_key: true
+
+      - name: name
+        sql: p_name
+        type: string
+
+      - name: manufacturer
+        sql: p_mfgr
+        type: string
+
+      - name: brand
+        sql: p_brand
+        type: string
+
+      - name: type
+        sql: p_type
+        type: string
+
+      - name: size
+        sql: p_size
+        type: number
+
+      - name: container
+        sql: p_container
+        type: string
+
+      - name: retail_price
+        sql: p_retailprice
+        type: number
+        format: currency
+
+      - name: comment
+        sql: p_comment
+        type: string
+
+    joins:
+      - name: line_items
+        relationship: one_to_many
+        sql: "{CUBE}.p_partkey = {line_items}.l_partkey"
+
+      - name: part_suppliers
+        relationship: one_to_many  
+        sql: "{CUBE}.p_partkey = {part_suppliers}.ps_partkey"

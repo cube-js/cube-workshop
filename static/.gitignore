@@ -1,0 +1,17 @@
+# Ignore all node_modules and build artifacts in static directory
+**/node_modules/
+**/build/
+**/dist/
+**/.next/
+**/package-lock.json
+**/yarn.lock
+
+# Ignore React app specific files
+react-app/.env
+react-app/npm-debug.log*
+react-app/yarn-debug.log*
+react-app/yarn-error.log*
+
+# Ignore Cube model build artifacts
+cube-models/**/node_modules/
+cube-models/**/package-lock.json
