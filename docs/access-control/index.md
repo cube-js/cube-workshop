@@ -71,20 +71,22 @@ First, let's create our hardcoded user mappings in `cube.py`.  In practice, thes
 Make sure to update your user email in the first entry of the `USER_SECURITY_MAPPINGS` dictionary below with your workshop email address.  This will ensure you have full access to the data when logged in to D3 in the final workshop module.
 :::
 
-```python title="cube.py" {3-43}
+```python title="cube.py" {3-45}
 from cube import config 
 
 USER_SECURITY_MAPPINGS = {
     # YOUR USER - UPDATE WITH YOUR WORKSHOP EMAIL
     "wdc-2025-999@example.com": {
         "role": "global_admin",
-        "filter_type": "none"
+        "filter_type": "none",
+        "show_pii": "true"  # Admins can see PII data
     },
     
     # Global admin - sees everything
     "admin@tpch.com": {
         "role": "global_admin",
-        "filter_type": "none"
+        "filter_type": "none",
+        "show_pii": "true"  # Admins can see PII data
     },
 
     # Regional director - North America (Region 1)
@@ -134,7 +136,7 @@ def query_rewrite(query: dict, ctx: dict) -> dict:
     if not user_security:
         # Add impossible filter to return no data
         query['filters'].append({
-            'member': 'sales.c_custkey',
+            'member': 'customers.customer_key',
             'operator': 'equals',
             'values': ['-1']  # Non-existent customer
         })
@@ -236,6 +238,10 @@ In this example, we'll mask phone numbers for sales reps and regional directors,
 4. Extend the security context to lookup the user's PII access
 5. Add the `context_to_app_id` function to cache our model both with PII access and without PII access
 
+:::note
+If you save the model changes in between steps, you may see compile errors.  Just make all 5 changes and then save, or ignore the compile errors until you finish all 5 steps.
+:::
+
 ### Step 1: Update the Phone Dimension
 
 Update the existing phone dimension in your `customers` cube to include PII masking:
@@ -260,7 +266,7 @@ Update the existing phone dimension in your `customers` cube to include PII mask
 
 We also need to include the phone field in our sales view. Update your `sales` view definition to move the phone dimension from `excludes` to `includes`:
 
-```yaml  title="/model/views/sales.yml" {11}
+```yaml  title="/model/views/sales.yml" {11,13}
 ...
 
       # Customer information via orders
@@ -273,6 +279,7 @@ We also need to include the phone field in our sales view. Update your `sales` v
           - customer_key
           - phone 
         excludes:
+          - phone # REMOVE THIS LINE
           - address
           - comment
 
@@ -321,17 +328,17 @@ def extend_context(req: dict) -> dict:
     # Check if securityContext exists, skip extending context if not
     if 'securityContext' not in req:
         return req
-    
-    # Get user from security context - handle both React app and D3 formats
+
+    # Get user from security context 
     security_context = req.get('securityContext', {})
-    # If D3 format (has cubeCloud key), extract username from cubeCloud.username
-    if 'cubeCloud' in security_context:
-        user_id = security_context.get('cubeCloud', {}).get('username')
-        # Update the user_id in the security context
-        req['securityContext']['user_id'] = user_id
-    else:
-        # For React app format, use existing user_id
-        user_id = security_context.get('user_id', 'anonymous')
+
+    # If user_id is not in the securityContext, extract it from cubeCloud.username
+    if 'user_id' not in security_context:
+        if 'cubeCloud' in security_context:
+            # Update the user_id in the security context
+            req['securityContext']['user_id'] = security_context.get('cubeCloud', {}).get('username')
+    
+    user_id = security_context.get('user_id', 'anonymous')
     
     # Look up user security settings
     user_security = USER_SECURITY_MAPPINGS.get(user_id, {})
@@ -381,26 +388,8 @@ In this section, we'll create two new views:
 
 First, we need to ensure user roles are available in the security context. Update your `extend_context` function in `cube.py` to include the user's role.  We'll also make our function more robust to handle both the React app and D3 formats of the security context:
 
-```python title="/cube.py" {9-19,26}
+```python title="/cube.py" {8}
 ...
-
-@config('extend_context')
-def extend_context(req: dict) -> dict:
-    # Check if securityContext exists, skip extending context if not
-    if 'securityContext' not in req:
-        return req
-    
-    # Get user from security context - handle both React app and D3 formats
-    security_context = req.get('securityContext', {})
-
-    # If D3 format (has cubeCloud key), extract username from cubeCloud.username
-    if 'cubeCloud' in security_context:
-        user_id = security_context.get('cubeCloud', {}).get('username')
-        # Update the user_id in the security context
-        req['securityContext']['user_id'] = user_id
-    else:
-        # For React app format, use existing user_id
-        user_id = security_context.get('user_id', 'anonymous')
     
     # Look up user security settings
     user_security = USER_SECURITY_MAPPINGS.get(user_id, {})
@@ -531,6 +520,9 @@ views:
 1. **Navigate to Playground**
 2. **Test each user type and observe available views**:
 
+![Hidden view verification for Director NA](./hidden_view.png)
+The padlock icon means this view (or cube or field) is not visible to the current user based on their security context through the APIs.
+
    **Admin User**:
    ```json
    { "user_id": "admin@tpch.com" }
@@ -556,8 +548,7 @@ views:
    - Sarah sees only her customers with masked phone numbers
    - Admin sees everything including real phone numbers
 
-![Hidden view verification for Director NA](./hidden_view.png)
-The padlock icon means this view (or cube or field) is not visible to the current user based on their security context through the APIs.
+
 
 ### Advanced: Combining View Visibility with Row-Level Security
 
@@ -646,7 +637,7 @@ Now that you've implemented comprehensive access control, let's save your work:
 
 **Step 2: Commit Your Changes**
 1. **Navigate to the Data Model page**
-2. **Review all your changes** - You should see modified files: `cube.py`, `globals.py`, `sales.yml`, `director_dashboard.yml`, `sales_team.yml`
+2. **Review all your changes** - You should see modified files: `customers.yml`, `cube.py`, `globals.py`, `sales.yml`, `director_dashboard.yml`, `sales_team.yml`
 3. **Click "Commit & Sync"**
 4. **Add a descriptive commit message**:
    ```

@@ -12,13 +12,13 @@ Each participant has been provided with a Cube account for this workshop:
 
 :::info Your Workshop Account
 - **Cube Cloud Account**: `https://[YOUR_ACCOUNT].cubecloud.dev`
-- **Username**: `user-[YOUR_NUMBER]@example.com`
+- **Username**: `wdc-2025-[YOUR_NUMBER]@example.com`
 - **Password**: `[PROVIDED_AT_WORKSHOP]`
-- **Deployment**: `WDC 2025 Workshop`
+- **Deployment**: `WDC 2025`
 :::
 
 1. Navigate to [cubecloud.dev/auth](https://cubecloud.dev/auth) and sign in with your provided credentials
-2. You should see a `WDC 2025 Workshop` deployment listed
+2. You should see a `WDC 2025` deployment listed
 3. Click into the deployment to access the Cube IDE
 
 ## Local Development Setup
@@ -86,7 +86,7 @@ Throughout the workshop, you'll be copying code snippets and downloading starter
 
 :::tip GitHub Repository
 Complete code examples and solutions are available at:
-`https://github.com/cube-js/cube-workshop`
+`https://github.com/cube-js/cube-workshop/tree/main/static`
 :::
 
 ## Test Your Setup

@@ -53,7 +53,7 @@ You should see a time series of order counts.  Check out the tabs for **SQL API*
 
 Now click on the **Generated SQL** tab - this is the query that Cube generates which goes back to our PostgreSQL database.  
 
-Let's **add another field to the query**.  From the `regions` cube, click the `name` field.  Now check those API tabs again.  The "Semantic SQL" (what we see on the **SQL API** tab) is simple - you're just asking for fields without worrying about the join logic which we've already defined and is now part of the data model.  
+Let's **add another field to the query**.  From the `customer_regions` cube, click the `name` field.  Now check those API tabs again.  The "Semantic SQL" (what we see on the **SQL API** tab) is simple - you're just asking for fields without worrying about the join logic which we've already defined and is now part of the data model.  
 
 On the **Generated SQL** tab, the query is now much more complex as the joins traverse a few tables to go from `orders` -> `customers` -> `nations` -> `regions` but as a semantic layer end user, we are able to simply re-use the logic that was already setup ahead of time. 
 
@@ -171,8 +171,11 @@ In development mode, you'll see a separate API endpoint for testing:
 # Production API (for live apps)
 https://your-workspace.cubecloud.dev/cubejs-api/v1
 
-# Development API (for testing changes)  
-https://your-workspace.cubecloud.dev/dev-branch-name/cubejs-api/v1
+# Non-Prod Branch API (for testing changes)  
+https://your-workspace.cubecloud.dev/branch-name/cubejs-api/v1
+
+# Dev Mode Branch API (for testing changes)  
+https://your-workspace.cubecloud.dev/branch-name/user-name/cubejs-api/v1
 ```
 
 ### Making Changes Safely
@@ -513,7 +516,9 @@ Create business-friendly categories by adding binning dimensions.  Instead of de
 Create a business-critical metric using subqueries and measure dependencies. Let's build **Average Customer Value (ACV)** in the customers cube:
 
 **Step 1: Add a subquery dimension to customers.yml**
-```yaml title="model/cubes/customers.yml" {7-12}
+```yaml title="model/cubes/customers.yml" {9-14}
+...
+    dimensions:
 ...
 
       - name: comment
@@ -696,9 +701,11 @@ You simply define a view that includes all the measures and related dimensions y
 
 ## Creating a Sales View
 
-To create a view, it's a best practice define it in a separate YAML file. **Important**: Generally you'll use the lowest granularity cube with the measures you want in the view - typically one tied to a fact table as your base. In our case, that's `line_items` since it contains the actual sales transactions:
+To create a view, it's a best practice to define it in a separate YAML file in the `views` directory to help keep them organized. Since we don't have that yet, let's create it now. Hover over the `/model` directory in the Cube Cloud IDE and click the **...** menu, then the **Add Directory** button. Name the folder `views`.
 
-Hover over the `/model/views` directory in the Cube Cloud IDE and click the **...*** menu, then the **New File** button. Name the file `sales.yml` and add the following content:
+![Add views folder](./add-views-folder.png)
+
+Now let's add a new file for our new view. Hover over the `/model/views` directory in the Cube Cloud IDE and click the **...** menu, then the **New File** button. Name the file `sales.yml` and add the following content: 
 
 ```yaml title="model/views/sales.yml"
 views:
@@ -781,6 +788,8 @@ views:
           - region_key
 ```
 
+**Important**: Generally you'll use the lowest granularity cube with the measures you want in the view - typically one tied to a fact table as your base. In our case, that's `line_items` since it contains the actual sales transactions.
+
 ## What This Enables
 
 With this view, end users can:
@@ -831,26 +840,7 @@ With this view, end users can:
 3. **Clean Schema**: Only relevant, business-friendly fields
 4. **Accurate Metrics**: Revenue and quantity calculations are precise
 
-## Complete Model Files
-
-### 📁 Starter Files
-**Location**: `static/cube-models/starter/`
-
-Contains:
-- Basic cubes with dimensions and count measures
-- Most joins (missing one for exercise)
-- Foundation for building upon
-
-### 📁 Data Modeling Complete  
-**Location**: `static/cube-models/data-modeling/`
-
-Contains:
-- All revenue measures
-- Subquery dimensions
-- Binning dimensions  
-- Multi-level measure dependencies
-- Complete join relationships
-- **Sales View** - Denormalized cube perfect for dashboards and reporting
+This data model is well on its way to power dashboards, reports, and applications with consistent, reliable business metrics.
 
 ## Deploying Your Sales View to Production
 
@@ -859,15 +849,20 @@ Now that you've built a comprehensive sales view with all the business metrics, 
 ### Final Exercise: Commit your Changes
 
 **Step 1: Review Your Changes**
-1. **Ensure you're in Development Mode** - Look for the "Dev Mode" indicator
+1. **Ensure you're still in Development Mode** - Look for the "Dev Mode" indicator
 2. **Test your sales view** one final time in the Playground:
    - Query `sales.total_sales_amount` by `sales.region`
    - Query `sales.parts_brand` with `sales.total_quantity`
    - Verify all field names and calculations are correct
 
+![Views Playground Button](./views-playground-button.png)
+
 **Step 2: Commit Your Development Branch**
 1. **Navigate to the Data Model page**
 2. **Review all your changes** - You should see modified files and changes highlighted on the **Changes** diff tab
+
+![Review Changes](./review-changes.png)
+
 3. **Click Commit & Sync**
 4. **Add a descriptive commit message**:
    ```
@@ -889,19 +884,17 @@ Congratulations! You've successfully:
 ✅ **Learned Cube's development workflow** - Safe, isolated development with Git integration  
 ✅ **Enhanced the orders cube** - Added revenue metrics and business logic  
 ✅ **Built complex relationships** - Subqueries, joins, and measure dependencies  
-✅ **Created a comprehensive sales view** - Line item grain with rich dimensional context  
-✅ **Deployed to production** - Your changes are now live and ready for applications  
+✅ **Created a comprehensive sales view** - Line item grain with rich dimensional context   
 
-### Business-Friendly Data Model
+## Complete Model Files
+If you need to reference our starting or ending model state, here are the links to the files:
 
-Your sales view now provides:
-- **🎯 Correct granularity**: Line item level for accurate transaction analysis
-- **📊 Key business metrics**: Revenue, quantity, discounts with proper calculations
-- **🌐 Rich context**: Product, customer, supplier, and geographic dimensions
-- **🔗 Clean relationships**: Proper join paths preventing fan-out issues
-- **📝 Business-friendly naming**: Intuitive field names and aliases
+### 📁 Starter Files
+**Location**: [1-starter](https://github.com/cube-js/cube-workshop/tree/main/static/cube-models/1-starter)
 
-This data model is well on its way to power dashboards, reports, and applications with consistent, reliable business metrics.
+### 📁 Data Modeling Complete  
+**Location**: [2-data-modeling](https://github.com/cube-js/cube-workshop/tree/main/static/cube-models/2-data-modeling)
+
 
 ---
 

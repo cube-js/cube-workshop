@@ -26,7 +26,7 @@ cubes:
         primary_key: true
 
       - name: order_date
-        sql: o_orderdate::DATE
+        sql: o_orderdate
         type: time
 
       - name: status

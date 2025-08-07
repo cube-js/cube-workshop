@@ -9,7 +9,7 @@ cubes:
 
       - name: total_quantity
         type: sum
-        sql: "{CUBE}.l_quantity"
+        sql: l_quantity
 
       - name: total_sales_amount
         type: sum
@@ -104,10 +104,10 @@ cubes:
           - total_quantity
           - count
         dimensions:
-          - orders.customers.customer_nations.customer_regions.name
-          - orders.customers.customer_nations.customer_regions.region_key
-          - orders.customers.name
-          - orders.customers.customer_key
+          - customer_regions.name
+          - customer_regions.region_key
+          - customers.name
+          - customers.customer_key
         time_dimension: ship_date
         granularity: month
         refresh_key:
@@ -118,9 +118,9 @@ cubes:
           - total_sales_amount
           - total_discount
         dimensions:
-          - orders.customers.customer_nations.customer_regions.name
-          - orders.customers.customer_nations.customer_regions.region_key
-          - orders.customers.customer_key
+          - customer_regions.name
+          - customer_regions.region_key
+          - customers.customer_key
           - parts.brand
           - orders.priority
         time_dimension: ship_date

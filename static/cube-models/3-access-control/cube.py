@@ -1,87 +1,48 @@
-from cube import config
+from cube import config 
 
-# User security mappings - in practice, these would come from your authentication system
 USER_SECURITY_MAPPINGS = {
     # YOUR USER - UPDATE WITH YOUR WORKSHOP EMAIL
     "wdc-2025-999@example.com": {
         "role": "global_admin",
-        "filter_type": "none"
+        "filter_type": "none",
+        "show_pii": "true"  # Admins can see PII data
     },
     
-    # Global admin - sees everything including PII
+    # Global admin - sees everything
     "admin@tpch.com": {
         "role": "global_admin",
         "filter_type": "none",
-        "show_pii": "true"
+        "show_pii": "true"  # Admins can see PII data
     },
-    
-    # Regional directors - no PII access
+
+    # Regional director - North America (Region 1)
     "director_na@tpch.com": {
         "role": "regional_director", 
         "filter_type": "region",
-        "region_key": 1,  # AMERICA
-        "show_pii": "false"
+        "region_key": 1  # AMERICA
     },
     
+    # Regional director - Europe (Region 3)
     "director_eu@tpch.com": {
         "role": "regional_director",
         "filter_type": "region", 
-        "region_key": 3,  # EUROPE
-        "show_pii": "false"
+        "region_key": 3  # EUROPE
     },
     
-    # Sales reps - no PII access
+    # Sales rep - specific customers
     "sarah_jones@tpch.com": {
         "role": "sales_rep",
         "filter_type": "customers",
-        "customer_keys": [1, 7, 13, 19, 25],
-        "show_pii": "false"
+        "customer_keys": [1, 7, 13, 19, 25]  # 5 customers
     },
     
+    # Sales rep - different customers
     "mike_chen@tpch.com": {
         "role": "sales_rep",
         "filter_type": "customers",
-        "customer_keys": [2, 8, 14, 20, 26, 27, 28],
-        "show_pii": "false"
+        "customer_keys": [2, 8, 14, 20, 26, 27, 28]  # 7 customers
     }
 }
-
-@config('extend_context')
-def extend_context(req: dict) -> dict:
-    # Check if securityContext exists, skip extending context if not
-    if 'securityContext' not in req:
-        return req
-    
-    # Get user from security context - handle both React app and D3 formats
-    security_context = req.get('securityContext', {})
-
-    # If D3 format (has cubeCloud key), extract username from cubeCloud.username
-    if 'cubeCloud' in security_context:
-        user_id = security_context.get('cubeCloud', {}).get('username')
-        # Update the user_id in the security context
-        req['securityContext']['user_id'] = user_id
-    else:
-        # For React app format, use existing user_id
-        user_id = security_context.get('user_id', 'anonymous')
-    
-    # Look up user security settings
-    user_security = USER_SECURITY_MAPPINGS.get(user_id, {})
-    
-    # Set both show_pii and role in security context
-    req['securityContext']['show_pii'] = user_security.get('show_pii', 'false')
-    req['securityContext']['role'] = user_security.get('role', 'viewer')  # Add role
-
-    return req
-
-@config('context_to_app_id')
-def context_to_app_id(ctx: dict) -> str:
-    security_context = ctx.get('securityContext', {})
-    show_pii = security_context.get('show_pii', 'false')
-    role = security_context.get('role', 'viewer')
-    
-    # Create a cache key that includes both role and PII access
-    # This ensures users with different roles get separate cached data models
-    return f"CUBE_APP_{role}_{show_pii}"
 
 @config('query_rewrite')
 def query_rewrite(query: dict, ctx: dict) -> dict:
@@ -125,3 +86,39 @@ def query_rewrite(query: dict, ctx: dict) -> dict:
         })
     
     return query
+
+@config('extend_context')
+def extend_context(req: dict) -> dict:
+    # Check if securityContext exists, skip extending context if not
+    if 'securityContext' not in req:
+        return req
+
+    # Get user from security context 
+    security_context = req.get('securityContext', {})
+    
+    # If user_id is not in the securityContext, extract it from cubeCloud.username
+    if 'user_id' not in security_context:
+        if 'cubeCloud' in security_context:
+            # Update the user_id in the security context
+            req['securityContext']['user_id'] = security_context.get('cubeCloud', {}).get('username')
+    
+    user_id = security_context.get('user_id', 'anonymous')
+    
+    # Look up user security settings
+    user_security = USER_SECURITY_MAPPINGS.get(user_id, {})
+    
+    # Set the show_pii flag in security context for template function
+    req['securityContext']['show_pii'] = user_security.get('show_pii', 'false')
+    req['securityContext']['role'] = user_security.get('role', 'viewer')  # Add role
+
+    return req
+
+@config('context_to_app_id')
+def context_to_app_id(ctx: dict) -> str:
+    security_context = ctx.get('securityContext', {})
+    show_pii = security_context.get('show_pii', 'false')
+    role = security_context.get('role', 'viewer')
+    
+    # Create a cache key that includes both role and PII access
+    # This ensures users with different roles get separate cached data models
+    return f"CUBE_APP_{role}_{show_pii}"

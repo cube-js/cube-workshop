@@ -6,7 +6,7 @@ cubes:
     measures:
       - name: count
         type: count
-      
+
       - name: total_revenue
         sql: o_totalprice
         type: sum
@@ -26,7 +26,7 @@ cubes:
         primary_key: true
 
       - name: order_date
-        sql: o_orderdate::DATE
+        sql: o_orderdate
         type: time
 
       - name: status
@@ -54,7 +54,7 @@ cubes:
         type: number
         description: "Number of line items in this order"
         sub_query: true
-      
+
       - name: order_size_category
         sql: >
           CASE 
@@ -81,8 +81,8 @@ cubes:
           - count
           - total_revenue
         dimensions:
-          - customers.customer_nations.customer_regions.name
-          - customers.customer_nations.customer_regions.region_key
+          - customer_regions.name
+          - customer_regions.region_key
           - customers.customer_key
           - customers.segment
           - status

@@ -330,12 +330,6 @@ Add this to your `orders.yml` cube:
 
 **Save** your changes to the cube.
 
-**Dashboard possibilities:**
-- 📈 **Customer Segment Performance** - Compare segments over time
-- 📦 **Order Size Distribution** - Understand purchase patterns
-- ✅ **Order Status Monitoring** - Track fulfillment metrics
-- 👥 **Customer Value Analysis** - Identify high-value customers
-
 **Create the Customer Behavior View:**
 
 Before testing, create a view optimized for customer behavior analysis. Create a new file `customer_behavior.yml` in your `model/views` folder:
@@ -661,7 +655,7 @@ Now that you've implemented sophisticated caching with pre-aggregations, let's s
 
 **Step 2: Commit Your Changes**
 1. **Navigate to the Data Model page**
-2. **Review all your changes** - You should see all modified files from the entire workshop: data modeling, access control, and caching changes
+2. **Review all your changes** - You should see our modified files : `line_items.yml`, `orders.yml`, and `customer_behavior.yml`
 3. **Click "Commit & Sync"**
 4. **Add a descriptive commit message**:
    ```

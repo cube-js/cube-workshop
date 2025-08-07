@@ -69,12 +69,17 @@ To make REST API calls, you'll need your Bearer token from Cube Cloud.  This JWT
 Keep your Bearer token secure! It grants access to your data based on the security context you provide.
 :::
 
+### Getting Your API Endpoint
+To make REST API calls, you'll need your Cube endpoint URL. This is available in the **Integrations** page under the **API Credentials** section.
+
+![Endpoint](./endpoint.png)
+
 :::tip Production vs Development API Endpoints
 Now that you've deployed your complete data model to production, you have access to different API endpoints:
 
 **Production Endpoint** (recommended for this section):
 ```
-https://your-workspace.cubecloud.dev/cubejs-api/v1
+https://your-workspace.your-cloud-region.cubecloudapp.dev/cubejs-api/v1
 ```
 - Stable, deployed version of your data model
 - Full performance with production-scale resources (NOTE: just for this workshop, our prod environment is still scaled down to use dev-scale resources)
@@ -82,7 +87,7 @@ https://your-workspace.cubecloud.dev/cubejs-api/v1
 
 **Development Endpoint** (only when in Dev Mode):
 ```
-https://your-workspace.cubecloud.dev/dev-branch-name/cubejs-api/v1
+https://your-workspace.your-cloud-region.cubecloudapp.dev/dev-branch-or-user-name/cubejs-api/v1
 ```
 - Development-scale resources (smaller, slower)
 - For testing changes before deployment
@@ -93,9 +98,11 @@ https://your-workspace.cubecloud.dev/dev-branch-name/cubejs-api/v1
 
 ### Exercise: Your First API Call
 
-Now that you have your Bearer token, let's query TPCH's monthly revenue using the REST API. We'll use the GET method with URL-encoded query parameters - this is simpler for testing in the terminal.
+Let's query TPCH's monthly revenue using the REST API. We'll use the GET method with URL-encoded query parameters - this is simpler for testing in the terminal.
 
-Head to the **Integrations** page and click the **API Credentials** button, then the **REST API** tab. This will show you your endpoint URL and how to construct a query using curl.
+:::tip
+On the **Integrations** page and click the **API Credentials** button, then the **REST API** tab. This will show you your endpoint URL and how to construct a query using `curl`.
+:::
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

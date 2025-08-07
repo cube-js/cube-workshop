@@ -1,6 +1,7 @@
 views:
   - name: customer_behavior
     description: "Customer behavior analytics optimized for order-level analysis"
+    public: true
     
     cubes:
       # Base cube - orders (order-level analysis)

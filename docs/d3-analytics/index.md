@@ -42,16 +42,15 @@ Cube D3 is currently in private preview and may have some limitations or errors 
 :::
 
 In Cube Cloud:
-1. **Navigate to D3** (click the Cube logo in the top left, then select "D3 AI")
-2. **Click Admin** in the left sidebar
+1. **Navigate to D3** (click the Cube logo in the top left, then select "D3 AI") The interface will look like it's still loading, but move on to the next step anyway.
+2. **Click Admin** at the bottom of the left sidebar
 3. In **Spaces**, click **Add Space**
 4. **Name your space** (e.g. "TPCH Analytics")
 5. In **Agents**, click **Add Agent**
 6. **Name your agent** (e.g. "TPCH Analyst")
-7. Select **"WDC 2025 Workshop"** as the **Semantic Model**
+7. Select **"WDC 2025"** as the **Semantic Model**
 8. Assign it to the **TPCH Analytics** space you just created
 9. Navigate **"Back to app"** to return to the D3 interface
-10. Make sure your Space is selected in the top dropdown menu.
 
 ## Exercise: Interacting with D3
 
@@ -61,6 +60,18 @@ Ask D3 a simple question about your data:
 ```
 What is our total revenue this year?
 ```
+
+:::tip
+Don't see any data?  Make sure you updated your cube.py file with your username (email address) in the `USER_SECURITY_MAPPINGS` section.  This allows D3 to recognize you as an admin and access the data.
+```USER_SECURITY_MAPPINGS = {
+    # YOUR USER - UPDATE WITH YOUR WORKSHOP EMAIL
+    "wdc-2025-044@example.com": {
+        "role": "global_admin",
+        "filter_type": "none",
+        "show_pii": "true"  # Admins can see PII data
+    },
+```
+:::
 
 Notice on the right side, D3 shows you the **Semantic Views** you have access to.  If you click on them, you can see the same fields we added to the views in our prior modules.
 
