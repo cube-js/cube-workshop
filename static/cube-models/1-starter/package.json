@@ -1,7 +1,7 @@
 {
-  "name": "wdc-2025-cube-workshop-starter",
+  "name": "cube-workshop-starter",
   "version": "0.0.1",
-  "description": "Cube starter model for WDC 2025 workshop",
+  "description": "Cube starter model for workshop",
   "main": "index.js",
   "scripts": {
     "dev": "cubejs-server"

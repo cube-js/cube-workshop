@@ -59,21 +59,6 @@ On the **Generated SQL** tab, the query is now much more complex as the joins tr
 
 ## Core Concepts
 
-### What We Skipped: Starting From Scratch
-
-In this workshop, we started with an existing data model to save time. When building a Cube project from scratch, you'd typically:
-
-1. **Use the Connection Wizard** - Cube guides you through connecting to your database
-2. **Select Tables** - Choose which tables to model from your database schema
-3. **Generate Initial Cubes** - Cube automatically creates a cube for each selected table with:
-   - Basic dimensions for each column
-   - A `count` measure
-   - Detected data types (string, number, time)
-4. **Infer Relationships** - Cube analyzes foreign keys and suggests join relationships
-5. **Refine and Customize** - Add business logic, custom measures, and meaningful descriptions
-
-This automated process gives you a solid foundation that you can then enhance with business-specific logic - exactly where we started in this workshop!
-
 ### Cubes (Data Models)
 
 A **Cube** represents a table or logical dataset. Cubes typically map 1-to-1 with tables in a star schema, but are also flexible.  For TPCH:
