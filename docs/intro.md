@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Overview
 
-Welcome to **Building Analytics Applications with Cube**! This 3-hour hands-on workshop will teach you how to build modern analytics applications using a Cube Semantic Layer.
+Welcome to **Building Analytics Applications with Cube**! This hands-on workshop will teach you how to build modern analytics applications using a Cube Semantic Layer.
 
 ## What You'll Learn
 
@@ -34,13 +34,12 @@ This workshop assumes you have:
 - Familiarity with JavaScript/TypeScript/React
 - Understanding of web development concepts
 - A laptop with Node.js 20+ installed
-- A Cube Cloud account with access to Cube D3 (Raise your hand or message in our Slack channel if you don't have a login)
+- A free Cube Cloud trial account (we'll set this up in the first section)
 
 ## Resources
 Besides this workshop guide, you may find these resources useful:
 - **Cube Docs** [Website](https://cube.dev/docs/product/introduction)
-- **Cube Slack** [Community Slack](https://slack.cube.dev/) 
-    - Join our **#wdc-2025-workshop** channel!
+- **Cube Slack** [Community Slack](https://slack.cube.dev/)
 
 ## Our Story: Technical Parts Commerce Hub
 

@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Resources & Next Steps
 
-Congratulations! You've completed the WDC 2025 Cube Semantic Layer Workshop and built a comprehensive analytics application. Here's how to continue your Cube journey.
+Congratulations! You've completed the Cube Semantic Layer Workshop and built a comprehensive analytics application. Here's how to continue your Cube journey.
 
 ## What You've Accomplished
 
@@ -28,9 +28,9 @@ Congratulations! You've completed the WDC 2025 Cube Semantic Layer Workshop and 
 ## Community & Support
 
 ### Join the Community
-- 💬 **[Slack Community](https://slack.cube.dev/)** - Connect with 5,000+ developers
-- 🐙 **[GitHub](https://github.com/cube-js/cube)** - Open source contributions welcome
-- 🐦 **[Twitter](https://twitter.com/the_cube_dev)** - Latest news and updates
+- 💬 **[Slack Community](https://slack.cube.dev/)** - Connect with 12,000+ developers
+- 🐙 **[GitHub](https://github.com/cube-js/cube)** - 18,000+ Stars, Open source contributions welcome
+- ✏️ **[Blog](https://cube.dev/blog)** - Latest news and updates
 - 💼 **[LinkedIn](https://linkedin.com/company/cube-dev)** - Professional network
 - 📺 **[YouTube](https://www.youtube.com/@cubedev)** - Tutorials and webinars
 
@@ -82,7 +82,7 @@ All workshop code is available on GitHub:
 
 ## Thank You!
 
-Thank you for participating in the WDC 2025 Cube Semantic Layer Workshop! 
+Thank you for completing the Cube Semantic Layer Workshop! 
 
 ### Feedback
 We'd love to hear about your workshop experience:
@@ -94,7 +94,3 @@ We'd love to hear about your workshop experience:
 **Let us know on [Slack](https://slack.cube.dev/)**
 
 ---
-
-**Keep building amazing analytics applications! 🚀**
-
-*The future of data is semantic, performant, and accessible to everyone.*

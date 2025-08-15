@@ -20,6 +20,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Workshop Exercises',
       items: [
+        'deployment-setup/index',
         'data-modeling/index',
         'access-control/index', 
         'caching/index',

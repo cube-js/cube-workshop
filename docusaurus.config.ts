@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'WDC 2025 Cube Semantic Layer Workshop',
-  tagline: 'Build a universal semantic layer on AWS for AI, BI and data applications featuring Cube Cloud',
+  title: 'Cube Semantic Layer Workshop',
+  tagline: 'Build a universal semantic layer for AI, BI and data applications featuring Cube Cloud',
   favicon: 'img/cube-icon.svg',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -65,7 +65,7 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'WDC 2025 Cube Semantic Layer Workshop',
+      title: 'Cube Semantic Layer Workshop',
       logo: {
         alt: 'Cube Logo',
         src: 'img/cube-logo.svg',

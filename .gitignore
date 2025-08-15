@@ -35,3 +35,7 @@ lerna-debug.log*
 
 # OS generated files
 Thumbs.db
+
+# Local Claude configuration
+CLAUDE.md.local
+*.claude.local

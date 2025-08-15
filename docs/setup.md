@@ -6,29 +6,20 @@ sidebar_position: 2
 
 Before we dive into building with Cube, let's get your environment ready.
 
-## Cube Account Setup
+## Prerequisites
 
-Each participant has been provided with a Cube account for this workshop:
+### Cube Cloud Account
 
-:::info Your Workshop Account
-- **Cube Cloud Account**: `https://[YOUR_ACCOUNT].cubecloud.dev`
-- **Username**: `wdc-2025-[YOUR_NUMBER]@example.com`
-- **Password**: `[PROVIDED_AT_WORKSHOP]`
-- **Deployment**: `WDC 2025`
-:::
+You'll need a Cube Cloud account to complete this workshop. If you don't have one yet, we'll set one up in the next section: [Deployment Setup](./deployment-setup)
 
-1. Navigate to [cubecloud.dev/auth](https://cubecloud.dev/auth) and sign in with your provided credentials
-2. You should see a `WDC 2025` deployment listed
-3. Click into the deployment to access the Cube IDE
-
-## Local Development Setup
+### Local Development Environment
 
 For the React application portion, you'll need Node.js installed locally.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-### Check Node.js Version
+#### Check Node.js Version
 
 <Tabs groupId="operating-systems">
 <TabItem value="mac" label="macOS">
@@ -76,9 +67,9 @@ choco install nodejs
 </TabItem>
 </Tabs>
 
-## Code Editor
+### Code Editor
 
-Your favorite IDE or text editor should work just fine.  
+Your favorite IDE or text editor should work just fine. 
 
 ## Workshop Files
 
@@ -144,9 +135,9 @@ rmdir /s cube-workshop-test
 
 If all commands run successfully, you're ready to begin! 
 
-## TPCH Dataset
+## TPCH Dataset Overview
 
-We'll be working with TPC-H data stored in a PostgreSQL database that represents TPCH's business data:
+We'll be working with TPC-H data stored in an open PostgreSQL database that represents TPCH's business data:
 
 - **Customer data** - B2B companies purchasing industrial parts
 - **Orders** - Purchase orders with dates, priorities, and status
@@ -155,8 +146,8 @@ We'll be working with TPC-H data stored in a PostgreSQL database that represents
 - **Suppliers** - Vendors providing parts to TPCH
 - **Nations/Regions** - Geographic data for global operations
 
-The data is stored in a PostgreSQL database with credentials already configured in your Cube workspace. This represents a typical production setup where you connect to your data warehouse or database to access your data.
+This dataset provides realistic e-commerce scenarios perfect for learning analytics concepts.
 
 ---
 
-**Next**: Let's start with [Data Modeling →](./data-modeling/)
+**Next**: Let's start setting up the Cube Deployment [Deployment Setup →](./deployment-setup)

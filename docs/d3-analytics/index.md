@@ -38,7 +38,7 @@ Because D3 operates on Cube's semantic layer, it ensures that all insights are a
 We'll run through a quick setup to get D3 working with your Cube instance.
 
 :::warning
-Cube D3 is currently in private preview and may have some limitations or errors as we iron out the experience.  Please report any issues you encounter to the Cube team - we appreciate your feedback!
+Cube D3 is currently in preview and may not be available to all users. If you don't see the D3 option in your Cube Cloud instance, please contact your Cube representative to inquire about enabling it.  Without D3 enabled, you won't be able to complete this module, but you can still follow along with the concepts and examples to see how Cube is delivering agentic analytics.
 :::
 
 In Cube Cloud:
