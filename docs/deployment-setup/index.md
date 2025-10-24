@@ -42,7 +42,7 @@ For this workshop, we'll connect to a PostgreSQL database containing TPC-H sampl
 1. **Select Database Type**: Choose **PostgreSQL**
 2. **Enter Connection Details**:
    ```
-   Host: cube-demo-tpch.ccg9yo1fzn3w.us-west-2.rds.amazonaws.com
+   Host: 34.123.72.34
    Port: 5432
    Database: cube-demo-tpch
    Username: cube_workshop
